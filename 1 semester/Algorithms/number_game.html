@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script>
+		var x;
+var count = 0, count_game=1, c = 1;
+var trf;
+var rows, columns, total;
+/*---------------*/
+var s;
+var seconds = 0;
+var times = 0;
+/*---------------*/
+var output = "";
+var t;
+var sec0nds = 0;
+
+
+
+ function download(strData, strFileName, strMimeType) {
+    var D = document,
+        A = arguments,
+        a = D.createElement("a"),
+        d = A[0],
+        n = A[1],
+        t = A[2] || "text/plain";
+
+    //build download link:
+    a.href = "data:" + strMimeType + "charset=utf-8," + escape(strData);
+
+    if ('download' in a) { //FF20, CH19
+        a.setAttribute("download", n);
+        a.innerHTML = "downloading...";
+        D.body.appendChild(a);
+        setTimeout(function() {
+            var e = D.createEvent("MouseEvents");
+            e.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            a.dispatchEvent(e);
+            D.body.removeChild(a);
+        }, 66);
+        return true;
+    };
+}
+
+
+
+function stopwatch(){
+	var sw = document.getElementById("sw");
+	seconds++;
+}
+function st0pw0tch(){
+	sec0nds++;
+}
+
+function getRandom()
+{
+	return Math.floor(Math.random() * (total) + 1);
+}
+function fill() {
+	document.getElementById('button_down').style.display='none';
+	output = "Seconds between clicks: ";
+	for (var i = 1; i <= total; i++) {
+		document.getElementById("t"+i).innerHTML=0;
+	}
+    for (var i = 0; i < total; i++) {
+		   	do {
+			  	x = getRandom();
+			  	if (document.getElementById("t"+x).innerHTML==0) {
+			  		trf = true;
+			  	}else {
+			  		trf = false;
+			  	}
+	    	}while(!trf);
+	    count++;
+	    document.getElementById("t"+x).innerHTML=count;
+    }
+    count = 0;
+    count_game=1;
+    document.getElementById("button").innerHTML = "Restart game";
+    document.getElementById("current").innerHTML="Find 1";
+    if (times > 0) {
+    	clearTimeout(s);
+    	clearTimeout(t);
+    }else{
+    	times++;
+    }
+    seconds = 0;
+  document.getElementById("sw").innerHTML="";
+    s = setInterval(stopwatch, 1000);
+}
+function step(e){
+	if (e.target.innerHTML == count_game) {
+		if (count_game==total) {
+			output = output + (sec0nds/100) + " ";
+			clearTimeout(t);
+			sec0nds=0;
+			document.getElementById("current").innerHTML="You win";
+			clearTimeout(s);
+			document.getElementById("sw").innerHTML="Total time: " + seconds + "s<br>Average time: " + (seconds/total).toFixed(2) + "s";
+			console.log(output);
+			document.getElementById('button_down').style.display='block';
+		}else if (count_game==1) {
+			t = setInterval(st0pw0tch, 10);
+			count_game++;
+			document.getElementById("current").innerHTML="Find "+count_game;
+		}else{
+			count_game++;
+			document.getElementById("current").innerHTML="Find "+count_game;
+			output = output + (sec0nds/100) + " ";
+			clearTimeout(t);
+			sec0nds=0;
+			t = setInterval(st0pw0tch, 10);
+		}
+	}else if (e.target.innerHTML == 0) {
+//		console.log("0");
+	}else{
+		document.getElementById("current").innerHTML="You lose";
+		count_game=0;
+		clearTimeout(s);
+		document.getElementById("sw").innerHTML=""; 
+	}
+}
+function create() {
+	rows = document.getElementById("rows").value;
+	columns = document.getElementById("columns").value;
+	total=rows*columns;
+
+	var temp_count = 1;
+	var full_code="";
+	
+	full_code +='<table>';
+	
+	for (var i = 0; i < rows; i++) {
+		full_code +='<tr>';
+		for (var j = 0; j < columns; j++) {
+			full_code +='<td onclick="step(event)" id="t'+temp_count+'">0</td>';
+			temp_count++;
+		}
+		full_code +='</tr>';
+	}
+	full_code +='</table>';
+	document.getElementById("placecreation").innerHTML=full_code;
+	document.getElementById("button_create").disabled=true;
+	document.getElementById("button").disabled=false;
+	document.getElementById("rows_text").style.display="none";
+	document.getElementById("rows").style.display="none";
+	document.getElementById("columns_text").style.display="none";
+	document.getElementById("columns").style.display="none";
+	document.getElementById("button_create").style.display="none";
+	document.getElementById("button").style.display="block";
+}
+	</script>
+	<style type="text/css">
+		table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+}
+
+		td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    text-align: center;
+}
+	</style>
+</head>
+<body onload="document.getElementById('button').style.display='none';document.getElementById('button_down').style.display='none';">
+	<div id="rows_text">Rows:</div>
+	<select id="rows">
+	    <option value="3">3</option>
+	    <option value="4">4</option>
+	    <option value="5">5</option>
+	    <option value="6">6</option>
+	    <option value="7">7</option>
+	    <option value="8">8</option>
+	    <option value="9">9</option>
+	    <option value="10">10</option>
+   </select>
+   <div id="columns_text">Columns:</div>
+	 <select id="columns">
+	    <option value="3">3</option>
+	    <option value="4">4</option>
+	    <option value="5">5</option>
+	    <option value="6">6</option>
+	    <option value="7">7</option>
+	    <option value="8">8</option>
+	    <option value="9">9</option>
+	    <option value="10">10</option>
+	 </select>
+	<br><br>
+	<button onclick="create()" id="button_create">Create</button>
+    <button onclick="fill()" id="button" disabled="true">Start game</button>
+    <br>
+    <div id="placecreation"></div>
+    <br>
+    <div id="current"></div>
+    <div id="sw"></div>
+    <button onclick="download(output, 'filename.txt', 'text/plain')" id="button_down">Download</button>
+</body>
+</html>
