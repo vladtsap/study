@@ -1,0 +1,40 @@
+version: '3'
+
+volumes:
+  cloud-redis-data:
+
+services:
+  frontend-app:
+    container_name: frontend-app
+    build: .
+    restart: unless-stopped
+    command: flask run -h 0.0.0.0
+    ports:
+      - '5001:5000'
+    environment:
+      FLASK_APP: frontend.py
+      REDIS_HOST: "$REDIS_HOST"
+      REDIS_PORT: "$REDIS_PORT"
+    depends_on:
+      - cloud-redis
+
+  backend-app:
+    container_name: backend-app
+    build: .
+    restart: unless-stopped
+    command: flask run -h 0.0.0.0
+    ports:
+      - '5002:5000'
+    environment:
+      FLASK_APP: backend.py
+      REDIS_HOST: "$REDIS_HOST"
+      REDIS_PORT: "$REDIS_PORT"
+    depends_on:
+      - cloud-redis
+
+  cloud-redis:
+    image: redis
+    container_name: cloud-redis
+    hostname: redis
+    volumes:
+      - cloud-redis-data:/data
