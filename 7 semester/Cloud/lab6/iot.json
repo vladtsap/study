@@ -1,0 +1,189 @@
+[
+  {
+    "id": "55574a5c.e6e6e4",
+    "type": "tab",
+    "label": "lab",
+    "disabled": false,
+    "info": ""
+  },
+  {
+    "id": "96b19916.be623",
+    "type": "tcp in",
+    "z": "55574a5c.e6e6e4",
+    "name": "Speed receiver",
+    "server": "server",
+    "host": "",
+    "port": "5001",
+    "datamode": "stream",
+    "datatype": "buffer",
+    "newline": "",
+    "topic": "",
+    "base64": false,
+    "x": 140,
+    "y": 200,
+    "wires": [
+      [
+        "b87a16bc.66dad"
+      ]
+    ]
+  },
+  {
+    "id": "b87a16bc.66dad",
+    "type": "function",
+    "z": "55574a5c.e6e6e4",
+    "name": "Speed parser",
+    "func": "msg.topic = \"speed\"\n\nmsg.payload = parseInt(msg.payload);\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 340,
+    "y": 200,
+    "wires": [
+      [
+        "e8107d74.dee71"
+      ]
+    ]
+  },
+  {
+    "id": "96daa59a.487ea",
+    "type": "tcp in",
+    "z": "55574a5c.e6e6e4",
+    "name": "Distance receiver",
+    "server": "server",
+    "host": "",
+    "port": "5002",
+    "datamode": "stream",
+    "datatype": "buffer",
+    "newline": "",
+    "topic": "",
+    "base64": false,
+    "x": 140,
+    "y": 260,
+    "wires": [
+      [
+        "e1f8b27.9b741d"
+      ]
+    ]
+  },
+  {
+    "id": "366d6795.cd18b8",
+    "type": "tcp in",
+    "z": "55574a5c.e6e6e4",
+    "name": "Temp receiver",
+    "server": "server",
+    "host": "",
+    "port": "5003",
+    "datamode": "stream",
+    "datatype": "buffer",
+    "newline": "",
+    "topic": "",
+    "base64": false,
+    "x": 130,
+    "y": 320,
+    "wires": [
+      [
+        "4f94d9d3.92417"
+      ]
+    ]
+  },
+  {
+    "id": "e1f8b27.9b741d",
+    "type": "function",
+    "z": "55574a5c.e6e6e4",
+    "name": "Distance parser",
+    "func": "msg.topic = \"distance\"\n\nmsg.payload = parseInt(msg.payload);\n\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 340,
+    "y": 260,
+    "wires": [
+      [
+        "e8107d74.dee71"
+      ]
+    ]
+  },
+  {
+    "id": "4f94d9d3.92417",
+    "type": "function",
+    "z": "55574a5c.e6e6e4",
+    "name": "Temp parser",
+    "func": "msg.topic = \"temp\"\n\nmsg.payload = parseInt(msg.payload);\n\nreturn msg;\n",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 330,
+    "y": 320,
+    "wires": [
+      [
+        "e8107d74.dee71"
+      ]
+    ]
+  },
+  {
+    "id": "3c4b0e63.af082a",
+    "type": "json",
+    "z": "55574a5c.e6e6e4",
+    "name": "",
+    "property": "payload",
+    "action": "",
+    "pretty": false,
+    "x": 670,
+    "y": 260,
+    "wires": [
+      [
+        "7c8f41c5.fa3408"
+      ]
+    ]
+  },
+  {
+    "id": "7c8f41c5.fa3408",
+    "type": "http request",
+    "z": "55574a5c.e6e6e4",
+    "name": "",
+    "method": "POST",
+    "ret": "txt",
+    "paytoqs": "body",
+    "url": "http://flaskapp:5000/data",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "authType": "",
+    "x": 830,
+    "y": 260,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "e8107d74.dee71",
+    "type": "join",
+    "z": "55574a5c.e6e6e4",
+    "name": "",
+    "mode": "custom",
+    "build": "object",
+    "property": "payload",
+    "propertyType": "msg",
+    "key": "topic",
+    "joiner": "\\n",
+    "joinerType": "str",
+    "accumulate": false,
+    "timeout": "",
+    "count": "3",
+    "reduceRight": false,
+    "reduceExp": "",
+    "reduceInit": "",
+    "reduceInitType": "",
+    "reduceFixup": "",
+    "x": 550,
+    "y": 260,
+    "wires": [
+      [
+        "3c4b0e63.af082a"
+      ]
+    ]
+  }
+]

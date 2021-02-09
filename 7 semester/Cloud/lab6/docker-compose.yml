@@ -1,0 +1,50 @@
+version: "3.7"
+
+volumes:
+  cloud-redis-data:
+  node-red-data:
+
+services:
+  node-red:
+    container_name: node-red
+    image: nodered/node-red:latest
+    hostname: nodered
+    ports:
+      - "1880:1880"
+      - "5001:5001"
+      - "5002:5002"
+      - "5003:5003"
+    environment:
+      "TZ": "Europe/Kiev"
+    volumes:
+      - node-red-data:/data
+    depends_on:
+      - flask-app
+
+  sender-app:
+    container_name: sender-app
+    build: .
+    command: python sender.py
+    restart: unless-stopped
+    depends_on:
+      - node-red
+
+  flask-app:
+    container_name: flask-app
+    hostname: flaskapp
+    build: .
+    restart: unless-stopped
+    command: flask run -h 0.0.0.0
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_APP: app.py
+    depends_on:
+      - cloud-redis
+
+  cloud-redis:
+    image: redis
+    container_name: cloud-redis
+    hostname: redis
+    volumes:
+      - cloud-redis-data:/data
