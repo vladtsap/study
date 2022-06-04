@@ -35,3 +35,18 @@ def linear_contrasting(image: ndarray, contrasting_coefficient=400) -> ndarray:
             ]
 
     return image
+
+
+def gamma_correction(image: ndarray, gamma=2.2) -> ndarray:
+    def gamma_function(value: int) -> int:
+        return normalize_pixel(255 * ((value / 255) ** (1 / gamma)))
+
+    height, width, channels = image.shape
+
+    for x in range(0, width):
+        for y in range(0, height):
+            r, g, b = image[y, x]
+
+            image[y, x] = [gamma_function(r), gamma_function(g), gamma_function(b)]
+
+    return image
