@@ -39,14 +39,12 @@ def process_sobel_filter(image, image_name, **_):
     )
 
 
-def process_binarization(image, image_name, **_):
+def process_binarization(image, image_name, threshold, **_):
     original_image = deepcopy(image)
-    for thresh in range(100, 180, 20):
-        image = deepcopy(original_image)
-        image = binarization(image, thresh)
-        cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_binarization_{thresh}.jpg'), image)
+    image = binarization(image, threshold)
+    cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_binarization_{threshold}.jpg'), image)
     print(
-        f'{image_name.upper()} — BINARIZATION | '
+        f'{image_name.upper()} — BINARIZATION (THRESHOLD={threshold}) | '
         f'PSNR: {round(calculate_psnr(original_image, image), 2)} | '
         f'SSIM: {round(calculate_ssim(original_image, image), 2)}'
     )
@@ -75,16 +73,13 @@ def process_canny(image, image_name, **_):
     )
 
 
-def process_k_mean(color_image, image_name, **_):
+def process_k_mean(color_image, image_name, k, i, **_):
     image = color_image
     original_image = deepcopy(image)
-    for k in range(1, 6):
-        for i in range(1, 6):
-            image = deepcopy(original_image)
-            image = k_mean(image, k, i)
-            cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_k_mean_{k}_{i}.jpg'), image)
+    image = k_mean(image, k, i)
+    cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_k_mean_{k}_{i}.jpg'), image)
     print(
-        f'{image_name.upper()} — K-MEAN | '
+        f'{image_name.upper()} — K-MEAN (K={k}, I={i}) | '
         f'PSNR: {round(calculate_psnr(original_image, image), 2)} | '
         f'SSIM: {round(calculate_ssim(original_image, image), 2)}'
     )
@@ -114,12 +109,23 @@ def main():
             for process in [
                 process_watershed,
                 process_sobel_filter,
-                process_binarization,
                 process_otsu,
                 process_canny,
-                process_k_mean,
             ]:
                 Process(target=process, kwargs=deepcopy(kwargs)).start()
+
+            for threshold in range(100, 180, 20):
+                Process(
+                    target=process_binarization,
+                    kwargs=deepcopy({**kwargs, **{'threshold': threshold}}),
+                ).start()
+
+            for k in range(2, 6):
+                for i in range(1, 6):
+                    Process(
+                        target=process_k_mean,
+                        kwargs=deepcopy({**kwargs, **{'k': k, 'i': i}}),
+                    ).start()
 
 
 if __name__ == '__main__':
