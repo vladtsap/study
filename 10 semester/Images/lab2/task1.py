@@ -2,7 +2,7 @@ import numpy as np
 from numpy import ndarray
 
 
-def gaussian_noise(image: ndarray, noise_sigma=42) -> ndarray:
+def gaussian_noise(image: ndarray, noise_sigma=22) -> ndarray:
     temp_image = np.float64(image)
 
     h = temp_image.shape[0]
