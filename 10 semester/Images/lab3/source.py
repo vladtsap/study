@@ -70,7 +70,7 @@ def process_canny(image, image_name, **_):
     cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_canny_scaled.jpg'), image_scaled)
     cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_canny.jpg'), image)
     print(
-        f'{image_name.upper()} — OTSU | '
+        f'{image_name.upper()} — CANNY | '
         f'PSNR: {round(calculate_psnr(original_image, image), 2)} | '
         f'SSIM: {round(calculate_ssim(original_image, image), 2)}'
     )
