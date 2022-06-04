@@ -1,4 +1,5 @@
 import os
+import warnings
 from copy import deepcopy
 from multiprocessing import Process
 
@@ -13,6 +14,8 @@ from utils import calculate_psnr, calculate_ssim
 
 INPUT_PATH = 'input'
 OUTPUT_PATH = 'output'
+
+warnings.filterwarnings("ignore")
 
 
 def process_watershed(image, image_name, **_):
