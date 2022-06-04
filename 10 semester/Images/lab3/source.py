@@ -47,7 +47,7 @@ def process_binarization(image, image_name, threshold, **_):
     image = binarization(image, threshold)
     cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_binarization_{threshold}.jpg'), image)
     print(
-        f'{image_name.upper()} — BINARIZATION (THRESHOLD={threshold}) | '
+        f'{image_name.upper()} — BINARIZATION (TH={threshold}) | '
         f'PSNR: {round(calculate_psnr(original_image, image), 2)} | '
         f'SSIM: {round(calculate_ssim(original_image, image), 2)}'
     )
