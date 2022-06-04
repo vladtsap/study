@@ -78,8 +78,11 @@ def process_canny(image, image_name, **_):
 def process_k_mean(color_image, image_name, **_):
     image = color_image
     original_image = deepcopy(image)
-    image = k_mean(image)
-    cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_k_mean.jpg'), image)
+    for k in range(1, 6):
+        for i in range(1, 6):
+            image = deepcopy(original_image)
+            image = k_mean(image, k, i)
+            cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_k_mean_{k}_{i}.jpg'), image)
     print(
         f'{image_name.upper()} — K-MEAN | '
         f'PSNR: {round(calculate_psnr(original_image, image), 2)} | '
