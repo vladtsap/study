@@ -7,6 +7,7 @@ import cv2
 from lab3.task1 import sobel_filter
 from lab3.task2 import binarization, otsu
 from lab3.task5 import watershed
+from lab3.tasks3 import canny_edge
 from utils import calculate_psnr, calculate_ssim
 
 INPUT_PATH = 'input'
@@ -59,6 +60,18 @@ def process_otsu(image, image_name):
     )
 
 
+def process_canny(image, image_name):
+    original_image = deepcopy(image)
+    image_scaled, image = canny_edge(image)
+    cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_canny_scaled.jpg'), image_scaled)
+    cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_canny.jpg'), image)
+    print(
+        f'{image_name.upper()} — OTSU | '
+        f'PSNR: {round(calculate_psnr(original_image, image), 2)} | '
+        f'SSIM: {round(calculate_ssim(original_image, image), 2)}'
+    )
+
+
 def main():
     for root, _, files in os.walk(INPUT_PATH):
         for file in files:
@@ -82,6 +95,7 @@ def main():
                 process_sobel_filter,
                 process_binarization,
                 process_otsu,
+                process_canny,
             ]:
                 Process(target=process, kwargs=deepcopy(kwargs)).start()
 
