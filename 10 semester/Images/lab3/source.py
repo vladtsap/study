@@ -7,7 +7,7 @@ import cv2
 from lab3.task1 import sobel_filter
 from lab3.task2 import binarization, otsu
 from lab3.task5 import watershed
-from lab3.tasks3 import canny_edge
+from lab3.task4 import canny_edge
 from utils import calculate_psnr, calculate_ssim
 
 INPUT_PATH = 'input'
