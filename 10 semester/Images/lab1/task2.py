@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from numpy import ndarray
 
 from utils import normalize_pixel
@@ -48,5 +50,32 @@ def gamma_correction(image: ndarray, gamma=2.2) -> ndarray:
             r, g, b = image[y, x]
 
             image[y, x] = [gamma_function(r), gamma_function(g), gamma_function(b)]
+
+    return image
+
+
+def histogram_equalisation(image: ndarray, L=256) -> ndarray:
+    def get_brightness(channel) -> int:
+        return int(sum(channel) / 3)
+
+    height, width, channels = image.shape
+
+    counts = defaultdict(int)
+
+    for x in range(width):
+        for y in range(height):
+            counts[get_brightness(image[y, x])] += 1
+
+    for i in range(1, L):
+        counts[i] += counts[i - 1]
+
+    for x in range(width):
+        for y in range(height):
+            r, g, b = image[y, x]
+            image[y, x] = [
+                (L - 1) * (counts[r]) / (width * height),
+                (L - 1) * (counts[g]) / (width * height),
+                (L - 1) * (counts[b]) / (width * height),
+            ]
 
     return image
