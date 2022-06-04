@@ -1,8 +1,6 @@
 from collections import deque
 
-import cv2
 import numpy as np
-from imageio import imwrite
 
 
 def group_pixels(y_val, x_val, pix):
@@ -13,7 +11,7 @@ def group_pixels(y_val, x_val, pix):
            ].reshape(2, -1).T
 
 
-def watershed(image: np.ndarray, lvls=256) -> np.ndarray:
+def watershed(image: np.ndarray, levels=256) -> np.ndarray:
     image = np.array(image)
     mflag = False
     Nque = deque()  # label que
@@ -29,13 +27,13 @@ def watershed(image: np.ndarray, lvls=256) -> np.ndarray:
     index_values = np.argsort(image_reshaped)  # sorts the image, uses X,Y values
     image_sorted = image_reshaped[index_values]
     pixels_sorted = pixels[index_values]
-    lvls = np.linspace(image_sorted[0], image_sorted[-1], lvls)  # space levels from 0 to 255.
+    levels = np.linspace(image_sorted[0], image_sorted[-1], levels)  # space levels from 0 to 255.
     curr_lvl = 0
     level_index_values = []
 
     for i in range(full_shape):
-        if image_sorted[i] > lvls[curr_lvl]:
-            while image_sorted[i] > lvls[curr_lvl]: curr_lvl += 1
+        if image_sorted[i] > levels[curr_lvl]:
+            while image_sorted[i] > levels[curr_lvl]: curr_lvl += 1
             level_index_values.append(i)
     first = 0
     level_index_values.append(full_shape)
