@@ -22,6 +22,15 @@ def process_gaussian_noise(image, image_name):
         f'SSIM: {round(calculate_ssim(original_image, image), 2)}'
     )
 
+    kwargs = {
+        'image': image,
+        'image_name': f'{image_name}_noise_gaussian',
+        'original': original_image,
+    }
+
+    Process(target=process_mean_filtering, kwargs=deepcopy(kwargs)).start()
+    Process(target=process_gaussian_filtering, kwargs=deepcopy(kwargs)).start()
+
 
 def process_bipolar_noise(image, image_name):
     original_image = deepcopy(image)
@@ -33,26 +42,33 @@ def process_bipolar_noise(image, image_name):
         f'SSIM: {round(calculate_ssim(original_image, image), 2)}'
     )
 
+    kwargs = {
+        'image': image,
+        'image_name': f'{image_name}_noise_bipolar',
+        'original': original_image,
+    }
 
-def process_mean_filtering(image, image_name):
-    original_image = deepcopy(image)
+    Process(target=process_mean_filtering, kwargs=deepcopy(kwargs)).start()
+    Process(target=process_gaussian_filtering, kwargs=deepcopy(kwargs)).start()
+
+
+def process_mean_filtering(image, image_name, original):
     image = mean_filtering(image)
     cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_mean_filtering.jpg'), image)
     print(
         f'{image_name.upper()} — MEAN FILTERING | '
-        f'PSNR: {round(calculate_psnr(original_image, image), 2)} | '
-        f'SSIM: {round(calculate_ssim(original_image, image), 2)}'
+        f'PSNR: {round(calculate_psnr(original, image), 2)} | '
+        f'SSIM: {round(calculate_ssim(original, image), 2)}'
     )
 
 
-def process_gaussian_filtering(image, image_name):
-    original_image = deepcopy(image)
+def process_gaussian_filtering(image, image_name, original):
     image = gaussian_filtering(image)
     cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_gaussian_filtering.jpg'), image)
     print(
         f'{image_name.upper()} — GAUSSIAN FILTERING | '
-        f'PSNR: {round(calculate_psnr(original_image, image), 2)} | '
-        f'SSIM: {round(calculate_ssim(original_image, image), 2)}'
+        f'PSNR: {round(calculate_psnr(original, image), 2)} | '
+        f'SSIM: {round(calculate_ssim(original, image), 2)}'
     )
 
 
@@ -76,8 +92,6 @@ def main():
             for process in [
                 process_gaussian_noise,
                 process_bipolar_noise,
-                process_mean_filtering,
-                process_gaussian_filtering,
             ]:
                 Process(target=process, kwargs=deepcopy(kwargs)).start()
 
