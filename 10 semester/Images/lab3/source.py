@@ -40,8 +40,10 @@ def process_sobel_filter(image, image_name):
 
 def process_binarization(image, image_name):
     original_image = deepcopy(image)
-    image = binarization(image)
-    cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_binarization.jpg'), image)
+    for thresh in range(100, 180, 20):
+        image = deepcopy(original_image)
+        image = binarization(image, thresh)
+        cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_binarization_{thresh}.jpg'), image)
     print(
         f'{image_name.upper()} — BINARIZATION | '
         f'PSNR: {round(calculate_psnr(original_image, image), 2)} | '
