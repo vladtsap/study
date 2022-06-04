@@ -18,3 +18,18 @@ def gaussian_noise(image: ndarray, noise_sigma=22) -> ndarray:
         noisy_image[:, :, 2] = temp_image[:, :, 2] + noise
 
     return noisy_image
+
+
+def bipolar_noise(image: ndarray, noise_prob=0.05) -> ndarray:
+    rows, cols, _ = image.shape
+
+    for i in range(rows):
+        for j in range(cols):
+            if np.random.random() < 0.5:
+                if np.random.random() < noise_prob:
+                    image[i][j] = [0, 0, 0]
+            else:
+                if np.random.random() < noise_prob:
+                    image[i][j] = [255, 255, 255]
+
+    return image

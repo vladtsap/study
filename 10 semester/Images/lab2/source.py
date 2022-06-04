@@ -4,7 +4,7 @@ from multiprocessing import Process
 
 import cv2
 
-from lab2.task1 import gaussian_noise
+from lab2.task1 import gaussian_noise, bipolar_noise
 from utils import calculate_psnr, calculate_ssim
 
 INPUT_PATH = 'input'
@@ -14,9 +14,20 @@ OUTPUT_PATH = 'output'
 def process_gaussian_noise(image, image_name):
     original_image = deepcopy(image)
     image = gaussian_noise(image)
-    cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_noise.jpg'), image)
+    cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_noise_gaussian.jpg'), image)
     print(
-        f'{image_name.upper()} — NOISE | '
+        f'{image_name.upper()} — GAUSSIAN NOISE | '
+        f'PSNR: {round(calculate_psnr(original_image, image), 2)} | '
+        f'SSIM: {round(calculate_ssim(original_image, image), 2)}'
+    )
+
+
+def process_bipolar_noise(image, image_name):
+    original_image = deepcopy(image)
+    image = bipolar_noise(image)
+    cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_noise_bipolar.jpg'), image)
+    print(
+        f'{image_name.upper()} — BIPOLAR NOISE | '
         f'PSNR: {round(calculate_psnr(original_image, image), 2)} | '
         f'SSIM: {round(calculate_ssim(original_image, image), 2)}'
     )
@@ -41,6 +52,7 @@ def main():
 
             for process in [
                 process_gaussian_noise,
+                process_bipolar_noise,
             ]:
                 Process(target=process, kwargs=deepcopy(kwargs)).start()
 
