@@ -73,10 +73,13 @@ def main():
                 'image_name': filename,
             }
 
-            Process(target=process_image_brightness, kwargs=deepcopy(kwargs)).start()
-            Process(target=process_image_linear_contrasting, kwargs=deepcopy(kwargs)).start()
-            Process(target=process_image_gamma_correction, kwargs=deepcopy(kwargs)).start()
-            Process(target=process_image_histogram_equalisation, kwargs=deepcopy(kwargs)).start()
+            for process in [
+                process_image_brightness,
+                process_image_linear_contrasting,
+                process_image_gamma_correction,
+                process_image_histogram_equalisation,
+            ]:
+                Process(target=process, kwargs=deepcopy(kwargs)).start()
 
 
 if __name__ == '__main__':
