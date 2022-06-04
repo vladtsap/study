@@ -10,8 +10,8 @@ def linear_contrasting(image: ndarray, contrasting_coefficient=400) -> ndarray:
     brightness_min = 255
     brightness_max = 0
 
-    for x in range(0, width):
-        for y in range(0, height):
+    for x in range(width):
+        for y in range(height):
             pixel_brightness = sum(image[y, x]) / 3
 
             if pixel_brightness < brightness_min:
@@ -19,8 +19,8 @@ def linear_contrasting(image: ndarray, contrasting_coefficient=400) -> ndarray:
             if pixel_brightness > brightness_max:
                 brightness_max = pixel_brightness
 
-    for x in range(0, width):
-        for y in range(0, height):
+    for x in range(width):
+        for y in range(height):
             channel = image[y, x]
 
             pixel_brightness = sum(channel) / 3
@@ -43,8 +43,8 @@ def gamma_correction(image: ndarray, gamma=2.2) -> ndarray:
 
     height, width, channels = image.shape
 
-    for x in range(0, width):
-        for y in range(0, height):
+    for x in range(width):
+        for y in range(height):
             r, g, b = image[y, x]
 
             image[y, x] = [gamma_function(r), gamma_function(g), gamma_function(b)]

@@ -7,8 +7,8 @@ HIGHER_THRESH = 230
 def balance_brightness(image: ndarray) -> ndarray:
     height, width, channels = image.shape
 
-    for x in range(0, width):
-        for y in range(0, height):
+    for x in range(width):
+        for y in range(height):
             channel = image[y, x]
             r, g, b = channel
 
