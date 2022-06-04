@@ -5,7 +5,7 @@ from multiprocessing import Process
 import cv2
 
 from lab3.task1 import sobel_filter
-from lab3.task2 import binarization
+from lab3.task2 import binarization, otsu
 from lab3.task5 import watershed
 from utils import calculate_psnr, calculate_ssim
 
@@ -48,6 +48,17 @@ def process_binarization(image, image_name):
     )
 
 
+def process_otsu(image, image_name):
+    original_image = deepcopy(image)
+    image = otsu(image)
+    cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_otsu.jpg'), image)
+    print(
+        f'{image_name.upper()} — OTSU | '
+        f'PSNR: {round(calculate_psnr(original_image, image), 2)} | '
+        f'SSIM: {round(calculate_ssim(original_image, image), 2)}'
+    )
+
+
 def main():
     for root, _, files in os.walk(INPUT_PATH):
         for file in files:
@@ -70,6 +81,7 @@ def main():
                 process_watershed,
                 process_sobel_filter,
                 process_binarization,
+                process_otsu,
             ]:
                 Process(target=process, kwargs=deepcopy(kwargs)).start()
 
