@@ -13,6 +13,8 @@ OUTPUT_PATH = 'output'
 
 def process_watershed(image, image_name):
     original_image = deepcopy(image)
+    original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
+
     image = watershed(image)
     cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_watershed.jpg'), image)
     print(

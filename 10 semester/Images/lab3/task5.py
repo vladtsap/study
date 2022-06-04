@@ -14,7 +14,7 @@ def group_pixels(y_val, x_val, pix):
 
 
 def watershed(image: np.ndarray, lvls=256) -> np.ndarray:
-    image = np.array(image)
+    image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2GRAY)
     mflag = False
     Nque = deque()  # label que
     curr_lbl = 0  # current label
