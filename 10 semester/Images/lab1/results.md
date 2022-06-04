@@ -10,6 +10,8 @@
 | GAMMA CORRECTION | 12.02 | 0.66 |
 | HISTOGRAM EQUALIZATION | 10.33 | 0.65 |
 
+---
+
 
 ### Image 2
 
@@ -19,6 +21,8 @@
 | LINEAR CONTRASTING | 19.59 | 0.98 |
 | GAMMA CORRECTION | 13.93 | 0.85 |
 | HISTOGRAM EQUALIZATION | 21.92 | 0.97 |
+
+---
 
 
 ### Image 3
@@ -30,6 +34,8 @@
 | GAMMA CORRECTION | 14.77 | 0.65 |
 | HISTOGRAM EQUALIZATION | 15.36 | 0.62 |
 
+---
+
 
 ### Image 4
 
@@ -39,6 +45,8 @@
 | LINEAR CONTRASTING | 22.27 | 0.97 |
 | GAMMA CORRECTION | 12.75 | 0.75 |
 | HISTOGRAM EQUALIZATION | 16.45 | 0.85 |
+
+---
 
 
 ### Image 5
