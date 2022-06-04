@@ -15,7 +15,7 @@ INPUT_PATH = 'input'
 OUTPUT_PATH = 'output'
 
 
-def process_watershed(image, image_name):
+def process_watershed(image, image_name, **_):
     original_image = deepcopy(image)
     image = watershed(image)
     cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_watershed.jpg'), image)
@@ -26,7 +26,7 @@ def process_watershed(image, image_name):
     )
 
 
-def process_sobel_filter(image, image_name):
+def process_sobel_filter(image, image_name, **_):
     original_image = deepcopy(image)
     image_x, image_y, image = sobel_filter(image)
     cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_sobel_X.jpg'), image_x)
@@ -39,7 +39,7 @@ def process_sobel_filter(image, image_name):
     )
 
 
-def process_binarization(image, image_name):
+def process_binarization(image, image_name, **_):
     original_image = deepcopy(image)
     for thresh in range(100, 180, 20):
         image = deepcopy(original_image)
@@ -52,7 +52,7 @@ def process_binarization(image, image_name):
     )
 
 
-def process_otsu(image, image_name):
+def process_otsu(image, image_name, **_):
     original_image = deepcopy(image)
     image = otsu(image)
     cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_otsu.jpg'), image)
@@ -63,7 +63,7 @@ def process_otsu(image, image_name):
     )
 
 
-def process_canny(image, image_name):
+def process_canny(image, image_name, **_):
     original_image = deepcopy(image)
     image_scaled, image = canny_edge(image)
     cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_canny_scaled.jpg'), image_scaled)
@@ -75,7 +75,8 @@ def process_canny(image, image_name):
     )
 
 
-def process_k_mean(image, image_name):
+def process_k_mean(color_image, image_name, **_):
+    image = color_image
     original_image = deepcopy(image)
     image = k_mean(image)
     cv2.imwrite(os.path.join(OUTPUT_PATH, f'{image_name}_k_mean.jpg'), image)
@@ -96,11 +97,14 @@ def main():
             filename = file.split('.')[0]
 
             original_image = cv2.imread(os.path.join(root, f'{file}'))
-            original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
             cv2.imwrite(os.path.join(OUTPUT_PATH, f'{filename}_original.jpg'), original_image)
 
+            gray_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
+            cv2.imwrite(os.path.join(OUTPUT_PATH, f'{filename}_gray.jpg'), gray_image)
+
             kwargs = {
-                'image': original_image,
+                'image': gray_image,
+                'color_image': original_image,
                 'image_name': filename,
             }
 
