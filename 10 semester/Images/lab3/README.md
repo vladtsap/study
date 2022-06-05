@@ -12,7 +12,7 @@
 | BINARIZATION (TH=120) | 8.33 | 0.7 |
 | BINARIZATION (TH=140) | 8.1 | 0.52 |
 | BINARIZATION (TH=160) | 7.24 | 0.36 |
-| WATERSHED |  |  |
+| WATERSHED | 6.41 | 0.08 |
 
 ##### K-Means
 
