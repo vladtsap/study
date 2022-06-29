@@ -1,0 +1,59 @@
+# Lab 1 — Results
+
+
+### Image 1
+
+| METHOD | PSNR | SSIM |
+|:--|:--|:--|
+| BRIGHTNESS | 29.23 | 0.91 |
+| LINEAR CONTRASTING | 26.12 | 0.97 |
+| GAMMA CORRECTION | 12.02 | 0.66 |
+| HISTOGRAM EQUALIZATION | 10.33 | 0.65 |
+
+---
+
+
+### Image 2
+
+| METHOD | PSNR | SSIM |
+|:--|:--|:--|
+| BRIGHTNESS | 33.39 | 0.98 |
+| LINEAR CONTRASTING | 19.59 | 0.98 |
+| GAMMA CORRECTION | 13.93 | 0.85 |
+| HISTOGRAM EQUALIZATION | 21.92 | 0.97 |
+
+---
+
+
+### Image 3
+
+| METHOD | PSNR | SSIM |
+|:--|:--|:--|
+| BRIGHTNESS | 25.97 | 0.81 |
+| LINEAR CONTRASTING | 20.75 | 0.98 |
+| GAMMA CORRECTION | 14.77 | 0.65 |
+| HISTOGRAM EQUALIZATION | 15.36 | 0.62 |
+
+---
+
+
+### Image 4
+
+| METHOD | PSNR | SSIM |
+|:--|:--|:--|
+| BRIGHTNESS | 31.05 | 0.96 |
+| LINEAR CONTRASTING | 22.27 | 0.97 |
+| GAMMA CORRECTION | 12.75 | 0.75 |
+| HISTOGRAM EQUALIZATION | 16.45 | 0.85 |
+
+---
+
+
+### Image 5
+
+| METHOD | PSNR | SSIM |
+|:--|:--|:--|
+| BRIGHTNESS | 22.93 | 0.59 |
+| LINEAR CONTRASTING | 27.05 | 0.98 |
+| GAMMA CORRECTION | 14.75 | 0.4 |
+| HISTOGRAM EQUALIZATION | 7.39 | 0.22 |
